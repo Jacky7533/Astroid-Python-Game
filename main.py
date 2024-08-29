@@ -5,12 +5,21 @@ import pygame
 # import the function_hello function
 # and the variable_player variable
 # into the current file
-import constants
+from constants import *
 
 def main():
     print("Starting asteroids!")
-    print(f"Screen width: {constants.SCREEN_WIDTH}")
-    print(f"Screen height: {constants.SCREEN_HEIGHT}")
+    print(f"Screen width: {SCREEN_WIDTH}")
+    print(f"Screen height: {SCREEN_HEIGHT}")
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    while pygame.get_init():
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+        pygame.Surface.fill(screen, color=(0,0,0))
+        pygame.display.flip()
+
 
 if __name__ == "__main__":
     main()
