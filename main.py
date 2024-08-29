@@ -17,18 +17,38 @@ def main():
     center_x = SCREEN_WIDTH / 2
     center_y = SCREEN_HEIGHT / 2
     game_time = pygame.time.Clock()
-    dt = 0
     player = Player(center_x,center_y)
+
+    # creating 2 groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    # add the player to both groups
+    updatable.add(player)
+    drawable.add(player)
+
+    # GameLoop Start
     while pygame.get_init():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        pygame.Surface.fill(screen, "black")
-        player.draw(screen)
+            
+        #limit fps to 60 
+        dt = game_time.tick(60)/1000
+
+        # update all objects in updatable group
+        for update in updatable:
+            update.update(dt)
+    
+        # Clear the screen
+        screen.fill("black")
+
+        # draw all objects in the drawable group
+        for draw in drawable:
+            draw.draw(screen)
+        # Update the display
         pygame.display.flip()
-        game_time.tick(60)
-        dt = game_time.tick()/1000
-        
+         
 
 if __name__ == "__main__":
     main()
