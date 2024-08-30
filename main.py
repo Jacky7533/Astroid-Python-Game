@@ -6,7 +6,9 @@ import pygame
 # and the variable_player variable
 # into the current file
 from constants import *
-from player import *
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     print("Starting asteroids!")
@@ -17,22 +19,34 @@ def main():
     center_x = SCREEN_WIDTH / 2
     center_y = SCREEN_HEIGHT / 2
     game_time = pygame.time.Clock()
-    player = Player(center_x,center_y)
+
+
 
     # creating 2 groups
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
 
-    # add the player to both groups
-    updatable.add(player)
-    drawable.add(player)
+    # creating a group that contains all asteroids
+    asteroids = pygame.sprite.Group()
+
+    # add the player to both groups into a container
+    Player.containers = (updatable, drawable)
+    # add the asteroid into a container
+    Asteroid.containers = (asteroids, updatable, drawable)
+    # adding a asteroidfield container
+    AsteroidField.containers = (updatable)
+
+    # Create the player and asteroid field instances
+    player = Player(center_x,center_y)
+    asteroid_field = AsteroidField()
+
+    dt = 0
 
     # GameLoop Start
     while pygame.get_init():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-            
         #limit fps to 60 
         dt = game_time.tick(60)/1000
 
@@ -46,6 +60,7 @@ def main():
         # draw all objects in the drawable group
         for draw in drawable:
             draw.draw(screen)
+
         # Update the display
         pygame.display.flip()
          
