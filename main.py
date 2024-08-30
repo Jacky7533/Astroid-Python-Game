@@ -62,7 +62,14 @@ def main():
             if player.collisions(asteroid):
                 print("Game Over!")
                 pygame.quit()
-                sys.exit()    
+                sys.exit()
+            for shots in bullet:
+                # if a shot of bullet hit an asteroid, it'll destroy both shot and asteroid.
+                if shots.collisions(asteroid):
+                    shots.kill()
+                    asteroid.kill()
+        
+
     
         # Clear the screen
         screen.fill("black")
