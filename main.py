@@ -2,6 +2,7 @@
 # the open-source pygame library
 # throughout this file
 import pygame
+import sys
 # import the function_hello function
 # and the variable_player variable
 # into the current file
@@ -53,6 +54,13 @@ def main():
         # update all objects in updatable group
         for update in updatable:
             update.update(dt)
+
+        # Checks for collision
+        for asteroid in asteroids:
+            if player.collisions(asteroid):
+                print("Game Over!")
+                pygame.quit()
+                sys.exit()    
     
         # Clear the screen
         screen.fill("black")
