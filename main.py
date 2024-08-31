@@ -67,7 +67,7 @@ def main():
                 # if a shot of bullet hit an asteroid, it'll destroy both shot and asteroid.
                 if shots.collisions(asteroid):
                     shots.kill()
-                    asteroid.kill()
+                    asteroid.split()
         
 
     
