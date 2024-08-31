@@ -11,6 +11,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from score import Score
 
 def main():
     print("Starting asteroids!")
@@ -25,23 +26,20 @@ def main():
     # creating groups
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    # creating a group that contains all asteroids
     asteroids = pygame.sprite.Group()
-    # creating another group for shot
     bullet = pygame.sprite.Group()
 
-    # add the player to both groups into a container
+    # containers
     Player.containers = (updatable, drawable)
-    # add the asteroid into a container
     Asteroid.containers = (asteroids, updatable, drawable)
-    # adding a asteroidfield container
     AsteroidField.containers = (updatable)
-    # adding shot container
     Shot.containers = (bullet, updatable, drawable)
+    Score.containers = (updatable, drawable)
 
     # Create the player and asteroid field instances
     player = Player(center_x,center_y)
     asteroid_field = AsteroidField()
+    score = Score()
 
     dt = 0
 
@@ -68,8 +66,7 @@ def main():
                 if shots.collisions(asteroid):
                     shots.kill()
                     asteroid.split()
-        
-
+                    score.increase(10)
     
         # Clear the screen
         screen.fill("black")
