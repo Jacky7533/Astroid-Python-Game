@@ -12,11 +12,10 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
 from score import Score
+from lives import Life
 
 def main():
     print("Starting asteroids!")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     center_x = SCREEN_WIDTH / 2
@@ -35,14 +34,15 @@ def main():
     AsteroidField.containers = (updatable)
     Shot.containers = (bullet, updatable, drawable)
     Score.containers = (updatable, drawable)
+    Life.containers = (updatable, drawable)
 
     # Create the player and asteroid field instances
     player = Player(center_x,center_y)
     asteroid_field = AsteroidField()
     score = Score()
+    life = Life()
 
     dt = 0
-    player_lives = 3
 
     # GameLoop Start
     while pygame.get_init():
@@ -59,11 +59,11 @@ def main():
         # Checks for collision
         for asteroid in asteroids:
             if player.collisions(asteroid):
-                if player_lives > 0:
+                if life.life > 0:
                     player.kill()
                     player = Player(center_x,center_y)
                     asteroid.split()
-                    player_lives -= 1
+                    life.decrease(1)
                 else:
                     print("Game Over!")
                     pygame.quit()
