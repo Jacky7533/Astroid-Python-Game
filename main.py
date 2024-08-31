@@ -42,9 +42,11 @@ def main():
     score = Score()
 
     dt = 0
+    player_lives = 3
 
     # GameLoop Start
     while pygame.get_init():
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -52,15 +54,20 @@ def main():
         dt = game_time.tick(60)/1000
 
         # update all objects in updatable group
-        for update in updatable:
-            update.update(dt)
+        updatable.update(dt)
 
         # Checks for collision
         for asteroid in asteroids:
             if player.collisions(asteroid):
-                print("Game Over!")
-                pygame.quit()
-                sys.exit()
+                if player_lives > 0:
+                    player.kill()
+                    player = Player(center_x,center_y)
+                    asteroid.split()
+                    player_lives -= 1
+                else:
+                    print("Game Over!")
+                    pygame.quit()
+                    sys.exit()
             for shots in bullet:
                 # if a shot of bullet hit an asteroid, it'll destroy both shot and asteroid.
                 if shots.collisions(asteroid):
